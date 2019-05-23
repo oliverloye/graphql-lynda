@@ -1,16 +1,23 @@
 import { resolvers } from './resolvers';
-import { makeExecuteableSchema } from 'graphql-tools';
+import { makeExecutableSchema } from 'graphql-tools';
 
 const typeDefs = `
     type Friend {
         id: ID
         firstName: String
         lastName: String
-        age: Int
         gender: Gender
+        age: Int
         language: String
         email: String
         contacts: [Contact]
+    }
+
+    type Alien {
+        id: ID
+        firstName: String
+        lastName: String
+        planet: String
     }
 
     type Contact {
@@ -21,7 +28,7 @@ const typeDefs = `
     enum Gender {
         MALE
         FEMALE
-        ALIEN
+        OTHER
     }
 
     type Query {
@@ -32,8 +39,8 @@ const typeDefs = `
         id: ID
         firstName: String!
         lastName: String
-        age: Int
         gender: Gender
+        age: Int
         language: String
         email: String
         contacts: [ContactInput]
@@ -41,13 +48,15 @@ const typeDefs = `
 
     input ContactInput {
         firstName: String
-        lastName: String
+        lastName: String 
     }
 
     type Mutation {
         createFriend(input: FriendInput): Friend
+        updateFriend(input: FriendInput): Friend
     }
 `;
 
-const schema = makeExecuteableSchema({typeDefs, resolvers});
-export default { schema };
+const schema = makeExecutableSchema({ typeDefs, resolvers});
+
+export { schema };
